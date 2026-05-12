@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Company Logo">
+    </div>
+
+    <ul class="nav-menu">
+        <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> </a></li>
+        <li><a href="{{ url_for('teams') }}"><i class="fa-solid fa-users"></i> </a></li>
+        <li><a href="{{ url_for('projects') }}"><i class="fa-solid fa-folder-open"></i> </a></li>
+        <li>
+           {% if current_user %}
+        <a href="javascript:void(0);" id="profileIcon" data-username="{{ current_user.username }}"><i class="fa-solid fa-user"></i></a>
+            {% else %}
+        <a href="{{ url_for('login') }}"><i class="fa-solid fa-user"></i></a>
+            {% endif %}
+        </li>   
+     </ul>
+</nav>
+
+<section class="projects-hero">
+    <div class="projects-overlay"></div>
+    <div class="projects-hero-content reveal">
+        <h1>Projects & Internal Deployments</h1>
+        <p>Explore ongoing, upcoming and archived humanoid robotics initiatives.</p>
+    </div>
+</section>
+
+<section class="projects-section">
+
+<!-- ================= ONGOING ================= -->
+<div class="project-group">
+<h2 class="reveal">Ongoing Projects</h2>
+
+<div class="project-card reveal">
+    <img src="{{ url_for('static', filename='images/project1.png') }}">
+
+    <div class="project-info">
+        <h3>HR-X Surveillance Humanoid</h3>
+        <p>Active deployment in secure monitoring zones.</p>
+        <p>Real-time telemetry and controlled operations.</p>
+
+        <div class="project-tags">
+            <span class="tag active">Active</span>
+            <span class="tag restricted">Restricted</span>
+        </div>
+    </div>
+
+    <div class="project-action">
+        <a href="/projects/hrx" class="view-btn">View Details &gt;&gt;</a>
+    </div>
+</div>
+
+<div class="project-card reveal">
+    <img src="{{ url_for('static', filename='images/risk-bg.png') }}">
+
+    <div class="project-info">
+        <h3>AP-7 Autonomous Patrol Unit</h3>
+        <p>Semi-autonomous unit for perimeter security.</p>
+        <p>Control access limited.</p>
+
+        <div class="project-tags">
+            <span class="tag limited">Limited</span>
+        </div>
+    </div>
+
+    <div class="project-action">
+        <a href="/projects/ap7" class="view-btn">View Details &gt;&gt;</a>
+    </div>
+</div>
+</div>
+
+<!-- ================= UPCOMING ================= -->
+<div class="project-group">
+<h2 class="reveal">Upcoming Projects</h2>
+
+<div class="project-card reveal">
+    <img src="{{ url_for('static', filename='images/project3.png') }}">
+
+    <div class="project-info">
+        <h3>HR-Ω (Omega) Initiative</h3>
+        <p>Next-gen robotics platform. Development classified.</p>
+
+        <div class="project-tags">
+            <span class="tag planned">Planned</span>
+            <span class="tag confidential">Confidential</span>
+        </div>
+    </div>
+
+    <div class="project-action">
+        <a href="/projects/omega" class="view-btn">View Details &gt;&gt;</a>
+    </div>
+</div>
+</div>
+
+<!-- ================= ARCHIVED ================= -->
+<div class="project-group">
+<h2 class="reveal">Archived Projects</h2>
+
+<div class="project-card reveal">
+    <img src="{{ url_for('static', filename='images/HX 1.jpg') }}">
+
+    <div class="project-info">
+        <h3>Internal Mobility Prototype – IM-3</h3>
+        <p>Project archived after security review.</p>
+
+        <div class="project-tags">
+            <span class="tag archived">Archived</span>
+            <span class="tag internal">Internal</span>
+        </div>
+    </div>
+
+    <div class="project-action">
+        <a href="/projects/im3" class="view-btn">View Details &gt;&gt;</a>
+    </div>
+</div>
+</div>
+
+
+
+</section>
+</section>
+
+<!-- PROFILE PANEL -->
+<div class="profile-panel" id="profilePanel">
+    <div class="close-btn" onclick="closeProfile()">×</div>
+
+    <div class="profile-left">
+        <img id="profileImg" src="">
+    </div>
+
+    <div class="profile-right">
+        <h2 id="profileName"></h2>
+        <p id="profilePost"></p>
+        <p id="profileInfo"></p>
+
+        <!-- THIS IS CRITICAL -->
+        <div id="profileTeam" class="profile-team"></div>
+
+        <button id="logoutBtn" onclick="logoutUser()">Logout</button>
+    </div>
+</div>
+
+<!-- ACCESS DENIED -->
+<div class="access-denied" id="accessDenied">
+    <div class="denied-box">
+        <img src="{{ url_for('static', filename='images/noaccess.png') }}">
+        <p>You don’t have permission to view this profile</p>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/reveal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+<script src="{{ url_for('static', filename='js/security.js') }}"></script>
+
+
+</body>
+</html>

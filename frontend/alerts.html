@@ -1,0 +1,197 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Dashboard Alerts</title>  
+    <link rel="stylesheet" href="/static/css/style.css">  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+            background-color: black;  
+            margin: 0;  
+            padding: 0;  
+        }  
+        nav {  
+            background-color: #1F2937;  
+            color: white;  
+            padding: 1rem 2rem;  
+            display: flex;  
+            justify-content: space-between;  
+            align-items: center;  
+        }  
+        nav a {  
+            color: white;  
+            text-decoration: none;  
+            margin-left: 1rem;  
+        }  
+       
+        .watermark {
+             position: fixed;
+             bottom: 20px;
+             right: 20px;
+             opacity: 0.2;
+             font-size: 14px;
+             pointer-events: none;
+        }
+        
+        .alert-section { margin-top: 50px; }
+        .alert-item {
+            background: #2a2f38;
+            border-left: 4px solid #3b0505;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        .alert-time { color: #aaa; font-size: 0.8rem; margin-top: 5px; }
+
+        table {  
+            width: 90%;  
+            margin: 1rem auto;  
+            border-collapse: collapse;  
+            background-color: black;  
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);  
+        }  
+        th, td {  
+            padding: 0.8rem;  
+            border-bottom: 1px solid black;  
+            text-align: left;  
+        }  
+        th {  
+            background-color: #4B5563;  
+            color: black;  
+        }  
+        tr:hover {  
+            background-color: black;  
+        }  
+        .critical {  
+            color: #ff3b3b; /* Bright red */ 
+            font-weight: bold;  
+        }  
+        .high {  
+            color: #8b0000; /* Dark red / maroon */  
+            font-weight: bold;
+        }
+    </style>  
+</head>  
+<body>  
+    <nav class="navbar">  
+        <div class="logo">  
+           <img src="{{ url_for('static', filename='images/dash.png') }}" alt="Logo">  
+        </div>  
+        <ul class="nav-menu">  
+           <li><a href="/dashboard">Logs</a></li>  
+           <li><a href="/alerts" class="active">Alerts</a></li>  
+           <li><a href="/risk">Risk</a></li>  
+           <li><a href="/response">Response</a></li>  
+           <li><a href="/reports">Reports</a></li>  
+        </ul>  
+    </nav>  
+
+    <h1>Real-time Security Alerts</h1>  
+    <div class="watermark">
+        {{ session['username'] }} | {{ request.remote_addr }} | Confidential
+    </div>
+
+    <!-- Screenshot Alerts Section -->
+    <div class="alert-section">
+        <div id="screenshot-alerts-container">
+            <!-- Dynamic alerts will be injected here -->
+        </div>
+    </div>
+
+    <table id="alerts-table">  
+        <thead>  
+            <tr>  
+                <th>Time</th>  
+                <th>User</th>  
+                <th>Action</th>  
+                <th>Severity</th>  
+                <th>Description</th>  
+                <th>Status</th>  
+            </tr>  
+        </thead>  
+        <tbody>  
+            <!-- Alerts will be injected here by JS -->  
+        </tbody>  
+    </table>  
+
+<script>  
+async function fetchAlerts() {  
+    try {  
+        const res = await fetch("/api/alerts");  
+        const data = await res.json();  
+        const tbody = document.querySelector("#alerts-table tbody");  
+        tbody.innerHTML = "";  
+
+        data.forEach(alert => {  
+            const severity = alert.severity.toUpperCase();
+            // Only CRITICAL and HIGH
+            if (severity !== "CRITICAL" && severity !== "HIGH") return;
+
+            const tr = document.createElement("tr");  
+
+            // Map API severity to CSS class  
+            let severityClass = severity === "CRITICAL" ? "critical" : "high";
+
+            tr.innerHTML = `  
+                <td>${alert.time}</td>  
+                <td>${alert.username}</td>  
+                <td>${alert.action}</td>  
+                <td class="${severityClass}">${alert.severity}</td>  
+                <td>${alert.description}</td>  
+                <td>${alert.status}</td>  
+            `;  
+            tbody.appendChild(tr);  
+        });  
+    } catch (err) {  
+        console.error("Error fetching alerts:", err);  
+    }  
+}  
+
+// Refresh every 5 seconds  
+fetchAlerts();  
+setInterval(fetchAlerts, 5000);  
+
+// ================== FETCH SCREENSHOT LOGS ==================
+async function fetchScreenshotAlerts() {
+    try {
+        const response = await fetch('/api/logs/screenshot');
+        const logs = await response.json();
+        const container = document.getElementById('screenshot-alerts-container');
+
+        if (!logs.length) {
+            container.innerHTML = '<p>No screenshot alerts.</p>';
+            return;
+        }
+
+        // Only show CRITICAL or HIGH logs
+        const recent = logs
+            .filter(log => log.severity && (log.severity.toUpperCase() === "CRITICAL" || log.severity.toUpperCase() === "HIGH"))
+            .slice(0, 5);
+
+        let html = '';
+        recent.forEach(log => {
+            const time = new Date(log.timestamp).toLocaleString();
+            const color = log.severity.toUpperCase() === "CRITICAL" ? "#ff3b3b" : "#8b0000";
+            html += `<div class="alert-item" style="border-left-color:${color}">
+                <strong>🔴 Screenshot Attempt</strong> on ${log.page_url}<br>
+                Method: ${log.method} · IP: ${log.ip}<br>
+                <div class="alert-time">${time}</div>
+            </div>`;
+        });
+
+        container.innerHTML = html || '<p>No high/critical screenshot alerts.</p>';
+    } catch (error) {
+        console.error('Error fetching screenshot alerts', error);
+    }
+}
+
+// Call every 10 seconds
+fetchScreenshotAlerts();
+setInterval(fetchScreenshotAlerts, 10000);
+</script>
+<script src="{{ url_for('static', filename='js/security.js') }}"></script>
+</body>  
+</html>

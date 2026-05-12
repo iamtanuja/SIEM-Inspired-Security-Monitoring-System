@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Reports</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reports.css') }}"></head>
+<body>
+<nav class="navbar">  
+    <div class="logo">  
+        <img src="{{ url_for('static', filename='images/dash.png') }}" alt="Logo">  
+    </div>  
+    <ul class="nav-menu">  
+        <li><a href="/dashboard">Logs</a></li>  
+        <li><a href="/alerts">Alerts</a></li>  
+        <li><a href="/risk">Risk</a></li>  
+        <li><a href="/response">Response</a></li>  
+        <li><a href="/reports">Reports</a></li>  
+    </ul>  
+</nav>  
+<h1 class="title"></h1>
+
+<div class="container">
+    {% for report in reports %}
+    <div class="card">
+        <h2>{{ report[0] }}</h2>
+        <p class="type">{{ report[1] }} Alert</p>
+
+        <a href="/download/{{ report[0] }}/{{ report[1] }}">
+            <button class="download-btn">Download</button>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>

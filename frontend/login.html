@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+  <style>
+    *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: url("/static/images/about-bg.png") no-repeat center center/cover;
+  position:relative;
+}
+
+/* DARK OVERLAY */
+body::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.75);   /* black overlay */
+  z-index:0;
+}
+
+/* LOGIN BOX */
+.wrapper{
+  position:relative;
+  z-index:1;
+  width:480px;              /* bigger */
+  padding:45px 50px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 20px 40px rgba(0,0,0,0.6);
+  color:#fff;
+}
+
+.wrapper h1{
+  font-size:38px;
+  text-align:center;
+  margin-bottom:20px;
+  letter-spacing:1px;
+}
+
+.input-box{
+  position:relative;
+  width:100%;
+  height:55px;
+  margin:25px 0;
+}
+
+.input-box input{
+  width:100%;
+  height:100%;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  outline:none;
+  border-radius:50px;
+  font-size:16px;
+  color:#fff;
+  padding:0 50px 0 20px;
+}
+
+.input-box input::placeholder{
+  color:#ddd;
+}
+
+.input-box i{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+  color:#fff;
+}
+
+.remember-forgot{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  margin-bottom:25px;
+}
+
+.remember-forgot a{
+  color:#fff;
+  text-decoration:none;
+}
+
+.remember-forgot a:hover{
+  text-decoration:underline;
+}
+
+.btn{
+  width:100%;
+  height:50px;
+  border:none;
+  border-radius:50px;
+  background:#fff;
+  color:#000;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#ddd;
+}
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <form method="POST" autocomplete="off">
+      <h1>Login</h1>
+
+      <div class="input-box">
+        <input type="text" name="username" placeholder="Username" autocomplete="off" required>
+        <i class='bx bxs-user'></i>
+      </div>
+
+      <div class="input-box">
+        <input type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+
+      <div class="remember-forgot">
+        <label><input type="checkbox"> Remember me</label>
+      </div>
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </div>
+<script src="{{ url_for('static', filename='js/security.js') }}"></script>
+</body>
+</html>

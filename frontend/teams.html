@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Team</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#050505;color:#fff;font-family:Inter,Arial,sans-serif;}
+body::before{content:"";position:fixed;inset:0;background:url("/static/images/project1.png") center/cover no-repeat;z-index:-2;}
+body::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:-1;}
+
+/* ===== NAVBAR ===== */
+.navbar{position:fixed;top:0;width:100%;height:10vh;background:#000;display:flex;justify-content:space-between;align-items:center;padding:0 50px;z-index:1000;}
+.logo img{height:8vh;}
+.nav-menu{list-style:none;display:flex;gap:30px;}
+.nav-menu a{color:#fff;text-decoration:none;font-size:16px;}
+.nav-menu a:hover{color:#7e6704c0;}
+
+/* ===== PAGE ===== */
+.container{padding:140px 8% 80px;}
+.section-title{font-size:28px;margin-bottom:60px;letter-spacing:1px;text-align:center;}
+
+/* ===== LEADERS ===== */
+.top-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1100px;margin:0 auto 100px;}
+.role-card{text-align:center;cursor:pointer;transition:.35s;}
+.role-card:hover{transform:translateY(-6px);}
+.role-card img{width:150%;height:320px;object-fit:contain;}
+
+/* ===== EMPLOYEES ===== */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:25px;}
+.employee-card{text-align:center;cursor:pointer;transition:.35s;}
+.employee-card:hover{transform:translateY(-6px);}
+.employee-card img{width:100%;height:200px;object-fit:contain;}
+
+/* ===== PROFILE PANEL ===== */
+.profile-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;       /* wider */
+    min-height: 350px;  /* taller */
+    transform: translate(-50%, -50%);
+    background: #111;
+    border: 1px solid #222;
+    display: none;
+    z-index: 2000;
+    color: #fff;
+    border-radius: 12px;  /* slightly more rounded */
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    padding: 20px;        /* add padding inside */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5); /* optional: shadow */
+}
+
+.profile-left {
+    width: 40%;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.profile-left img {
+    width: 90%;  /* a bit bigger */
+    height: auto;
+    border-radius: 50%;
+}
+
+.profile-right {
+    width: 60%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* space between content and logout button */
+}
+
+.profile-right h2 {
+    margin-bottom: 10px;
+}
+
+.profile-right p {
+    margin-bottom: 15px; /* more spacing */
+}
+
+.profile-right button {
+    width: 120px;       /* bigger button */
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+    align-self: flex-start; /* aligns to left if you want */
+    margin-top: 20px;       /* more space from content */
+}
+
+.profile-right button:hover {
+    background: #333;
+}
+.close-btn{position:absolute;top:10px;right:15px;font-size:20px;cursor:pointer;}
+
+/* ===== PROFILE TEAM ===== */
+.profile-team{margin-top:10px;font-size:14px;color:#aaa;}
+.profile-team span{display:inline-block;background:#111;padding:5px 8px;margin:3px 3px 0 0;border-radius:4px;font-size:13px;}
+
+/* ===== ACCESS DENIED ===== */
+.access-denied{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;z-index:6000;}
+.access-denied.active{display:flex;}
+.denied-box{text-align:center;animation:zoomIn .8s ease;}
+.denied-box img{width:400px;height:auto;margin-bottom:20px;}
+.denied-box p{color:#aaa;font-size:14px;}
+@keyframes zoomIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}">
+        </a>
+    </div>
+    <ul class="nav-menu">
+        <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="{{ url_for('teams') }}"><i class="fa-solid fa-users"></i></a></li>
+        <li><a href="{{ url_for('projects') }}"><i class="fa-solid fa-folder-open"></i></a></li>
+        <li><a href="javascript:void(0);" id="profileIcon" data-username="{{ session['username'] | escape }}"><i class="fa-solid fa-user"></i></a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+<h2 class="section-title">THE MIND THAT LEADS THE VISION</h2>
+<div class="top-roles">
+{% for leader in leadership %}
+    <div class="role-card" onclick="openProfile('{{ leader.username }}')">
+        <img src="{{ url_for('static', filename=leader.image.split('static/')[1]) }}">
+        <h3>{{ leader.name }}</h3>
+        <p>{{ leader.post }}</p>
+    </div>
+{% endfor %}
+</div>
+
+<h2 class="section-title">THE FORCE THAT BUILDS THE FUTURE</h2>
+<div class="team-grid">
+{% for emp in employees %}
+    <div class="employee-card" onclick="openProfile('{{ emp.username }}')">
+        <img src="{{ url_for('static', filename=emp.image.split('static/')[1]) }}">
+        <h4>{{ emp.name }}</h4>
+        <p>{{ emp.post }}</p>
+    </div>
+{% endfor %}
+</div>
+
+</div>
+
+<!-- PROFILE PANEL -->
+<div class="profile-panel" id="profilePanel">
+    <div class="close-btn" onclick="closeProfile()">×</div>
+    <div class="profile-left">
+        <img id="profileImg" src="">
+    </div>
+    <div class="profile-right">
+        <h2 id="profileName"></h2>
+        <p id="profilePost"></p>
+        <p id="profileInfo"></p>
+        <p id="profileProject"></p>
+
+        <div id="profileTeam" class="profile-team"></div>
+        <button onclick="logoutUser()">Logout</button>
+    </div>
+</div>
+
+<!-- ACCESS DENIED -->
+<div class="access-denied" id="accessDenied">
+    <div class="denied-box">
+        <img src="{{ url_for('static', filename='images/noaccess.png') }}" alt="Access Denied">
+        <p>You don’t have permission to view this profile</p>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+<script src="{{ url_for('static', filename='js/security.js') }}"></script>
+
+</body>
+</html>

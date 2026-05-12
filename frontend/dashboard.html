@@ -1,0 +1,55 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Dashboard</title>  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">  
+</head>  
+<body>  <!-- NAVBAR -->  
+<nav class="navbar">  
+    <div class="logo">  
+        <img src="{{ url_for('static', filename='images/dash.png') }}" alt="Logo">  
+    </div>  
+    <ul class="nav-menu">  
+        <li><a href="/dashboard">Logs</a></li>  
+        <li><a href="/alerts">Alerts</a></li>  
+        <li><a href="/risk">Risk</a></li>  
+        <li><a href="/response">Response</a></li>  
+        <li><a href="/reports">Reports</a></li>  
+    </ul>  
+</nav>  <!-- CLOCK BELOW NAVBAR -->  <div class="dashboard-header">  
+    <div id="clock-container">  
+        <span id="time"></span> | <span id="date"></span>  
+    </div>  
+</div>  <!-- MAIN CONTENT -->  <main class="dashboard-container">  
+    <div class="logs-wrapper">  
+        <table id="logs-table" class="logs-table">  
+            <thead>  
+                <tr>  
+                    <th>Time-Date</th>  
+                    <th>Username</th>  
+                    <th>Action</th>  
+                    <th>Alert</th>  
+                    <th>Description</th>  
+                    <th>Severity</th>  
+                    <th>Status</th>  
+
+                </tr>  
+            </thead>  
+            <tbody id="logs-container">  
+                <!-- Logs will be populated here by JS -->  
+            </tbody>  
+        </table>  
+    </div>  <!-- Screenshot Attempts Log Section -->
+    <!-- Screenshot Alerts Section -->
+   <div class="alert-section">
+    
+    </div>
+    </div>
+        
+
+</main>  <!-- Inject current user safely -->  <script>  
+    const CURRENT_USER = "{{ current_user.username if current_user else '' }}";  
+</script>  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/security.js') }}"></script>
+</body>  
+</html>

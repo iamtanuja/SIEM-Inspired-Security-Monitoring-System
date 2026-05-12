@@ -1,0 +1,746 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* logo left, menu right */
+    padding: 0 50px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.logo img {
+    height: 8vh; /* scale to navbar */
+    width: auto;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-menu a:hover{color:#7e6704c0;}
+
+
+/* Responsive navbar for mobile */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 20px;
+    }
+    .nav-menu {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+
+
+/* HERO IMAGE */
+.hero {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+/* ================= PROJECTS PAGE ================= */
+
+/* ---------- HERO SECTION ---------- */
+.projects-hero {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background: url("/static/images/news2.png") center center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+}
+
+.projects-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.85),
+        rgba(0,0,0,0.55)
+    );
+}
+
+.projects-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+}
+
+.projects-hero-content h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.projects-hero-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #d0d0d0;
+}
+
+
+/* ---------- MAIN PROJECTS SECTION ---------- */
+.projects-section {
+    padding: 90px 8%;
+    background: #060606;
+}
+
+.project-group {
+    margin-bottom: 90px;
+}
+
+.project-group h2 {
+    font-size: 28px;
+    color: #ffffff;
+    margin-bottom: 35px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1f1f1f;
+}
+
+
+/* ---------- PROJECT CARD ---------- */
+.project-card {
+    display: flex;
+    gap: 26px;
+    padding: 22px;
+    margin-bottom: 28px;
+    background: #0d0d0d;
+    border: 1px solid #1e1e1e;
+    border-radius: 6px;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+}
+
+.project-card img {
+    width: 230px;
+    height: 145px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+
+/* ---------- PROJECT INFO ---------- */
+.project-info {
+    flex: 1;
+}
+
+.project-info h3 {
+    font-size: 19px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.project-info p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cfcfcf;
+}
+
+
+/* ---------- TAGS / BADGES ---------- */
+.project-tags {
+    margin-top: 10px;
+}
+
+.project-tags span {
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px 12px;
+    margin-right: 8px;
+    margin-top: 6px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 20px;
+    color: #dcdcdc;
+}
+
+
+/* ---------- REVEAL ANIMATION ---------- */
+.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+    .project-card {
+        flex-direction: column;
+    }
+
+    .project-card img {
+        width: 100%;
+        height: 180px;
+    }
+
+    .projects-hero-content h1 {
+        font-size: 36px;
+    }
+}
+
+/* ===== PROJECT TAGS ===== */
+
+.project-tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-right: 8px;
+    margin-top: 6px;
+    font-size: 12px;
+    border-radius: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+/* ===== PROJECT STATUS RECTANGLES ===== */
+
+.project-tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    margin-right: 8px;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+
+    border-radius: 0 !important;   /* 🔴 FORCE RECTANGLE */
+    border: none !important;
+}
+
+/* STATUS COLORS */
+
+.tag.active {
+    background-color: #063d1b;   /* green */
+}
+
+.tag.restricted {
+    background-color: #ff9800;   /* orange */
+}
+
+.tag.limited {
+    background-color: #242323;   /* grey */
+}
+
+.tag.planned {
+    background-color: #063d1b;   /* blue */
+}
+
+.tag.confidential {
+    background-color: #5c0907;   /* red */
+}
+
+.tag.archived {
+    background-color: #963a19;   /* brown */
+}
+
+.tag.internal {
+    background-color: #242323;   /* light grey */
+}
+
+.project-action {
+    display: flex;
+    align-items: center;
+}
+
+.view-btn {
+    padding: 10px 18px;
+    background: #1f1f1f;
+    color: #fff;
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+.view-btn:hover {
+    background: #2c2c2c;
+    transform: translateX(4px);
+}
+
+
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    background: url("/static/images/logo.png") center / cover no-repeat;
+    z-index: -3;
+}
+
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: -2;
+}
+
+.bg-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 140px;
+    font-weight: 800;
+    letter-spacing: 14px;
+    color: rgba(255,255,255,0.035);
+    white-space: nowrap;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ==============================
+   PAGE CONTENT
+============================== */
+
+.page-content{
+    padding:120px 6%;
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+}
+
+.page-content h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.project-desc {
+    max-width: 650px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #cfcfcf;
+    margin-bottom: 22px;
+}
+
+/* ==============================
+   TAGS
+============================== */
+
+.project-tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.tag {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.tag.active {
+    background: #1b5e20;
+    color: #b9ffcf;
+}
+
+.tag.restricted {
+    background: #7f0000;
+    color: #ffd6d6;
+}
+
+/* ==============================
+   FILE SECTION
+============================== */
+
+.file-section {
+    max-width: 900px;
+    width: 100%;
+}
+
+.file-section h2 {
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.file-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: #0f0f0f;
+    margin-bottom: 12px;
+    border: 1px solid #1e1e1e;
+    text-decoration: none;
+    color: #fff;
+}
+
+#fileViewer{
+    width:100%;
+    height:850px;
+    margin-top:30px;
+}
+
+.file-box:hover {
+    background: #161616;
+}
+
+/* ==============================
+   FILE STATES
+============================== */
+
+.locked {
+    color: #ff5252;
+    font-weight: 600;
+}
+
+.view-only {
+    color: #4caf50;
+    font-weight: 600;
+}
+
+/* ==============================
+   AUTH OVERLAY
+============================== */
+
+#auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.auth-box {
+    background: #0d0d0d;
+    padding: 40px;
+    text-align: center;
+    width: 320px;
+    border: 1px solid #2a2a2a;
+}
+
+.auth-box h2 {
+    margin-bottom: 8px;
+}
+
+.auth-box p {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.auth-box button {
+    width: 100%;
+    padding: 10px;
+    background: #063d1b;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.auth-box button:hover {
+    background: #0a5a2a;
+}
+
+#error-msg {
+    color: #ff5252;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+/* ==============================
+   LOCK / UNLOCK LOGIC
+============================== */
+
+/* Locked by default */
+.locked-content {
+    filter: blur(2px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.disabled-link {
+    pointer-events: none;
+    opacity: 0.55;
+}
+
+/* When JS unlocks */
+.locked-content.unlocked {
+    filter: none;
+    pointer-events: auto;
+    user-select: auto;
+}
+
+.unlocked .disabled-link {
+    pointer-events: auto;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.viewer-box {
+    margin-top: 30px;
+    width: 100%;
+    height: 600px;
+    border: 1px solid #1e1e1e;
+    background: #000;
+}
+
+.viewer-box iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+
+
+/* ===== BACKGROUND ===== */
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    background: url("/static/images/logo.png") center / cover no-repeat;
+    z-index: -3;
+}
+
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: -2;
+}
+
+.bg-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    font-weight: 800;
+    letter-spacing: 14px;
+    color: rgba(255,255,255,0.035);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ===== PAGE ===== */
+.page-content {
+    padding: 120px 8%;
+}
+
+/* ===== TEAM ===== */
+.team-list {
+    max-width: 900px;
+    margin-top: 30px;
+}
+
+.team-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px;
+    margin-bottom: 14px;
+    background: #0f0f0f;
+    border: 1px solid #1e1e1e;
+    transition: 0.3s;
+}
+
+.team-row:hover {
+    background: #161616;
+}
+
+.team-row img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.team-row h3 {
+    margin-bottom: 4px;
+}
+
+.team-row p {
+    font-size: 13px;
+    color: #aaa;
+}
+
+/* ===============================
+   TEAM PAGE LAYOUT (NEW)
+================================ */
+
+.team-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* ===============================
+   PROFILE PANEL (NEW)
+================================ */
+
+.profile-panel{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    min-height: 350px;
+    transform: translate(-50%, -50%);
+    background: #111;
+    border: 1px solid #222;
+    display: none;
+    z-index: 2000;
+    color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.profile-panel.active{
+    display: flex;
+}
+
+/* LEFT */
+.profile-left{
+    width: 40%;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-left img{
+    width: 90%;
+    border-radius: 50%;
+}
+
+/* RIGHT — THIS IS THE MAIN FIX */
+.profile-right{
+    width: 60%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 🔥 IMPORTANT */
+}
+
+.profile-right h2{
+    margin-bottom: 8px;
+}
+
+.profile-right p{
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.profile-team span{
+    display: block;        /* 🔥 EACH NAME NEW LINE */
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.profile-right button{
+    width: 120px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.profile-right button:hover{
+    background: #333;
+}
+
+.close-btn{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.access-denied {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    display: none;          /* 🔴 THIS WAS MISSING */
+    align-items: center;
+    justify-content: center;
+    z-index: 6000;
+}
+
+.access-denied.active {
+    display: flex;
+}

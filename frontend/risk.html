@@ -1,0 +1,65 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Risk Dashboard</title>  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/risk.css') }}">  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+</head>  
+<body>  
+ <!-- NAVBAR -->  
+<nav class="navbar">  
+    <div class="logo">  
+        <img src="{{ url_for('static', filename='images/dash.png') }}" alt="Logo">  
+    </div>  
+    <ul class="nav-menu">  
+        <li><a href="/dashboard">Logs</a></li>  
+        <li><a href="/alerts">Alerts</a></li>  
+        <li><a href="/risk">Risk</a></li>  
+        <li><a href="/response">Response</a></li>  
+        <li><a href="/reports">Reports</a></li>  
+    </ul>  
+</nav> 
+ <div class="container">  
+    <!-- ====== Top Cards ====== -->  
+    <div class="cards-row">  
+        <div class="card critical">  
+            <h3>Critical</h3>  
+            <span id="critical-count">0</span>  
+        </div>  
+        <div class="card high">  
+            <h3>High</h3>  
+            <span id="high-count">0</span>  
+        </div>  
+        <div class="card low">  
+            <h3>Low</h3>  
+            <span id="low-count">0</span>  
+        </div>  
+        <div class="card unauthorized">  
+            <h3>Unauthorized</h3>  
+            <span id="unauth-count">0</span>  
+        </div>  
+    </div>  
+
+    <!-- ====== Risk Line Graph ====== -->  
+    <div class="graph-row">  
+        <div class="graph-wrapper">  
+            <canvas id="riskLineGraph"></canvas>  
+        </div>  
+        <div class="legend-container">  
+            <div class="legend-item"><span class="legend-box critical"></span> Critical</div>  
+            <div class="legend-item"><span class="legend-box high"></span> High</div>  
+            <div class="legend-item"><span class="legend-box low"></span> Low</div>  
+        </div>  
+    </div>  
+
+    <!-- ====== Pie Chart ====== -->  
+    <div class="graph-row">  
+        <div class="graph-wrapper">  
+            <canvas id="pieChart"></canvas>  
+        </div>  
+    </div>  
+</div>  
+
+<script src="{{ url_for('static', filename='js/risk.js') }}"></script>
+</body>  
+</html>

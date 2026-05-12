@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Internal Robotics System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Company Logo">
+    </div>
+
+    <ul class="nav-menu">
+        <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="{{ url_for('teams') }}"><i class="fa-solid fa-users"></i></a></li>
+        <li><a href="{{ url_for('projects') }}"><i class="fa-solid fa-folder-open"></i></a></li>
+        <!-- FIXED data-username syntax -->
+        <li>
+            <a href="javascript:void(0);" id="profileIcon" data-username="{{ session.get('username') }}">
+                <i class="fa-solid fa-user"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- HERO / CONTENT -->
+ <div>
+        <img src="{{ url_for('static', filename='images/robot.png') }}">
+
+ </div>
+
+
+<!-- PROFILE PANEL -->
+<div class="profile-panel" id="profilePanel">
+    <div class="close-btn" onclick="closeProfile()">×</div>
+
+    <div class="profile-left">
+        <img id="profileImg" src="">
+    </div>
+
+    <div class="profile-right">
+        <h2 id="profileName"></h2>
+        <p id="profilePost"></p>
+        <p id="profileInfo"></p>
+        <div id="profileTeam" class="profile-team"></div>
+        <button onclick="logoutUser()">Logout</button>
+    </div>
+</div>
+
+<!-- ACCESS DENIED -->
+<div class="access-denied" id="accessDenied">
+    <div class="denied-box">
+        <img src="{{ url_for('static', filename='images/noaccess.png') }}">
+        <p>You don’t have permission to view this profile</p>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+<script src="{{ url_for('static', filename='js/security.js') }}"></script>
+
+</body>
+</html>

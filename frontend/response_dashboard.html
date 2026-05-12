@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Security Alerts Dashboard</title>
+    <style>
+       /* BODY */
+body {
+    background: black;
+    font-family: 'Segoe UI', sans-serif;
+    color: #e2e8f0;
+    margin: 0;
+    padding-top: 80px;   /* important because navbar is fixed */
+}
+
+/* NAVBAR */
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    padding: 8px 12px;
+    transition: 0.2s;
+}
+
+.nav-menu li a:hover {
+    color: #00bcd4;
+    border-radius: 4px;
+}
+
+/* ALERT SECTION */
+#alerts-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.alert-card {
+    width: 300px;
+    background: black;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    border-top: 4px solid;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.alert-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0,0,0,0.9);
+}
+
+.alert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.recommendation-box {
+    margin-top: 12px;
+    padding: 10px;
+    background:black (0, 188, 212, 0.08);
+    border-left: 3px solid black;
+    border-radius: 6px;
+}
+
+.recommendation-box h4 {
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: r gb(250, 244, 244);
+}
+
+.recommendation-box p {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.alert-header h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #f1f5f9;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* SEVERITY COLORS */
+
+.alert-card.critical {
+    border-top-color: #420a0a;
+}
+.alert-card.critical .badge {
+    background: #420a0a;
+    color: white;
+}
+
+.alert-card.high {
+    border-top-color: #420a0a;
+}
+.alert-card.high .badge {
+    background: #420a0a;
+    color: white;
+}
+
+.alert-card.medium {
+    border-top-color: #4d3f07;
+}
+.alert-card.medium .badge {
+    background: #4d3f07;
+    color: black;
+}
+
+.alert-card.low {
+    border-top-color: #042912;
+}
+.alert-card.low .badge {
+    background: #042912;
+    color: white;
+}
+
+.alert-body p {
+    font-size: 14px;
+    margin: 6px 0;
+    color: #cbd5e1;
+}
+    </style>
+</head>
+<body>
+
+     <nav class="navbar">  
+        <div class="logo">  
+           <img src="{{ url_for('static', filename='images/dash.png') }}" alt="Logo">  
+        </div>  
+        <ul class="nav-menu">  
+           <li><a href="/dashboard">Logs</a></li>  
+           <li><a href="/alerts" class="active">Alerts</a></li>  
+           <li><a href="/risk">Risk</a></li>  
+           <li><a href="/response">Response</a></li>  
+           <li><a href="/reports">Reports</a></li>  
+        </ul>  
+    </nav>  
+
+<h1>Real-time Security Alerts</h1>
+
+<div class="alert-section" id="alerts-container">
+    <!-- Cards will be injected here -->
+</div>
+
+<script>
+   async function loadAlerts() {
+    try {
+        const response = await fetch("/api/response-alerts");
+        const data = await response.json();
+
+        const container = document.getElementById("alerts-container");
+        container.innerHTML = "";
+
+        if (!data || data.length === 0) {
+            container.innerHTML = "<p>No alerts found.</p>";
+            return;
+        }
+
+        data.forEach(alert => {
+
+            const level = (alert.severity || "LOW").toLowerCase();
+
+            const card = document.createElement("div");
+            card.className = `alert-card ${level}`;
+
+            card.innerHTML = `
+                <div class="alert-header">
+                    <h3>${alert.action || "Unknown Action"}</h3>
+                    <span class="badge">${level.toUpperCase()}</span>
+                </div>
+
+                <div class="alert-body">
+                    <p><strong>Risk Score:</strong> ${alert.risk_score || 0}</p>
+                    <p><strong>Potential Damage:</strong> ${alert.potential_impact || "N/A"}</p>
+                    <p><strong>User:</strong> ${alert.username || "Unknown"}</p>
+                    <p><strong>Time:</strong> ${alert.time || "N/A"}</p>
+                </div>
+                <div class="recommendation-box">
+                     <h4>Recommended Action</h4>
+                     <p>${getRecommendation(alert.action)}</p>               
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Error loading alerts:", error);
+    }
+}
+function getRecommendation(action) {
+    switch (action) {
+
+        case "LOGIN_FAILED":
+            return "Possible brute-force attempt. Check IP logs and consider temporary account lock.";
+
+        case "MULTIPLE_LOGIN_ATTEMPTS":
+            return "Monitor login frequency. Enable CAPTCHA or 2FA immediately.";
+
+        case "PROFILE_ACCESS_DENIED":
+            return "Review RBAC policies. Ensure correct user permissions.";
+
+        case "TAB_SWITCH_OR_SCREEN_CAPTURE":
+            return "Possible data exfiltration attempt. Investigate user session activity.";
+
+        case "SUSPICIOUS_FILE_UPLOAD":
+            return "Scan uploaded file for malware and restrict executable uploads.";
+
+        default:
+            return "Review alert details and validate user behavior.";
+    }
+}
+
+loadAlerts();
+setInterval(loadAlerts, 5000);
+</script>
+
+</body>
+</html>

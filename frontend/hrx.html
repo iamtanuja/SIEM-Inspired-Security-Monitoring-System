@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HR-X Secure Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Company Logo">
+    </div>
+
+    <ul class="nav-menu">
+        <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> </a></li>
+        <li><a href="{{ url_for('teams') }}"><i class="fa-solid fa-users"></i> </a></li>
+        <li><a href="{{ url_for('projects') }}"><i class="fa-solid fa-folder-open"></i> </a></li>
+        <li class="profile-icon"><i class="fa-solid fa-user" onclick="toggleProfilePanel()"></i></li>
+
+    </ul>
+</nav>
+
+<!-- BACKGROUND -->
+<div class="bg-layer"></div>
+<div class="bg-overlay"></div>
+<div class="bg-watermark">HR-X</div>
+
+<!-- AUTH OVERLAY -->
+<div id="auth-overlay">
+    <div class="auth-box">
+        <h2>Restricted Access</h2>
+        <p>Enter authorization key</p>
+        <input type="password" id="authPass" placeholder="Access Key" autofocus>
+        <button onclick="unlock()">Unlock</button>
+        <div id="error-msg"></div>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="page-content locked-content" id="mainContent">
+
+    <h1>HR-X Surveillance Humanoid</h1>
+    <p class="project-desc">
+        HR-X is a controlled surveillance humanoid system designed for restricted security environments.
+    </p>
+
+    <div class="project-tags">
+        <div class="tag active">ACTIVE</div>
+        <div class="tag restricted">RESTRICTED</div>
+    </div>
+
+    <!-- FILE SECTION -->
+    <div class="file-section">
+        <h2>Secure Documents</h2>
+
+        <div class="file-box" onclick="openFile('HRX_Project_Overview.pdf')">
+            <span>📄 HRX_Project_Overview.pdf</span>
+            <span class="view-only">VIEW</span>
+        </div>
+
+        <div class="file-box" onclick="openFile('HRX_Team_Structure.pdf')">
+            <span>📄 HRX_Team_Structure.pdf</span>
+            <span class="view-only">VIEW</span>
+        </div>
+    </div>
+
+    <!-- PDF VIEWER -->
+    <div class="viewer-box">
+        <iframe id="fileViewer"></iframe>
+    </div>
+
+</div>
+
+<script>
+async function unlock() {
+    const input = document.getElementById("authPass").value;
+    const project = "hrx";
+
+    try {
+        const res = await fetch(`/unlock/${project}`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({password: input})
+        });
+        const data = await res.json();
+        if(res.ok){
+            document.getElementById("auth-overlay").style.display = "none";
+            document.getElementById("mainContent").classList.add("unlocked");
+        } else {
+            document.getElementById("error-msg").innerText = data.error === "wrong_password" 
+                ? "Invalid access key" 
+                : "Access denied";
+        }
+    } catch(err){ console.error(err); }
+}
+
+function openFile(filename){
+    const viewer = document.getElementById("fileViewer");
+    viewer.src = `/protected/hrx/${filename}`;
+}
+</script>
+<script src="{{ url_for('static', filename='js/security.js') }}"></script>
+</body>
+</html>
